@@ -7,3 +7,6 @@ Keep this template generic: improve reusable UI, theme, and server foundations w
 - For Go handler, configuration, and lifecycle patterns, read [docs/go-conventions.md](docs/go-conventions.md) when changing server code.
 - For implementation, refactoring, and review, follow [docs/code-quality.md](docs/code-quality.md), combining `thermo-nuclear-code-quality-review` and [Ponytail](https://github.com/DietrichGebert/ponytail/blob/main/skills/ponytail/SKILL.md) (full mode).
 - For linting, formatting, and verification commands, read [docs/tooling.md](docs/tooling.md) when changing code or tool configuration.
+
+- For module or API interface alternatives, use [.agents/skills/design-an-interface/SKILL.md](.agents/skills/design-an-interface/SKILL.md); it compares distinct designs before implementation.
+- For polish or hardening of an existing web artifact, use [.agents/skills/impeccable-design-polish/SKILL.md](.agents/skills/impeccable-design-polish/SKILL.md).
