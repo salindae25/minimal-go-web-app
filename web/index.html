@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en" data-theme="catppuccin-mocha">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Go web template</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    <link rel="stylesheet" href="/static/themes.css" />
+    <script src="/static/theme-init.js"></script>
+
+    <script defer src="/static/app.js"></script>
+  </head>
+  <body>
+    <div class="app-shell" data-shell>
+      <header class="app-shell__header">
+        <button
+          type="button"
+          class="button button--icon"
+          data-sidebar-toggle
+          aria-controls="sidebar"
+          aria-expanded="true"
+          aria-label="Toggle sidebar"
+        >
+          ☰
+        </button>
+        <span class="app-shell__title">Go web template</span>
+        <div class="app-shell__actions">
+          <label for="theme-select" class="sr-only">Theme</label>
+          <select class="select select--compact" id="theme-select" data-theme-select></select>
+        </div>
+      </header>
+      <aside id="sidebar" class="sidebar" aria-label="Sidebar">
+        <div class="sidebar__heading">Application</div>
+        <nav class="sidebar__nav" aria-label="Main navigation">
+          <a class="sidebar__link" href="/" aria-current="page">Home</a><!-- dev-navigation -->
+        </nav>
+        <div class="sidebar__footer"><span class="badge">Go + browser</span></div>
+      </aside>
+      <div
+        class="resize-handle"
+        data-sidebar-resize
+        role="separator"
+        aria-label="Sidebar width"
+        aria-controls="sidebar"
+        aria-orientation="vertical"
+        aria-valuemin="180"
+        aria-valuemax="400"
+        aria-valuenow="240"
+        tabindex="0"
+      ></div>
+      <main class="app-shell__content" id="main-content">
+        <div class="page">
+          <h1>A small place to start.</h1>
+          <p class="page__intro">A Go server, a browser client, and reusable UI building blocks.</p>
+          <section class="panel" aria-labelledby="example-title">
+            <div class="panel__header">
+              <h2 class="panel__title" id="example-title">Client meets server</h2>
+            </div>
+            <div class="panel__body">
+              <p>Plain JavaScript in your browser. A JSON API served by Go.</p>
+              <button class="button button--primary" id="hello-button" type="button">
+                Call the API
+              </button>
+              <output class="api-result" id="hello-result" aria-live="polite">Ready.</output>
+            </div>
+          </section>
+        </div>
+      </main>
+      <footer class="app-shell__status">Ready</footer>
+    </div>
+    <div class="toast" data-toast role="status" aria-live="polite" aria-atomic="true" hidden></div>
+  </body>
+</html>

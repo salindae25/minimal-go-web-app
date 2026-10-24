@@ -1,0 +1,28 @@
+{
+  "name": "minimal-go-server-template",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build-web.js",
+    "check": "node scripts/check-web.js",
+    "lint": "npm run lint:js && npm run lint:css && npm run lint:html",
+    "lint:js": "eslint . --max-warnings 0",
+    "lint:css": "stylelint \"web/**/*.css\" --max-warnings 0",
+    "lint:html": "html-validate \"web/*.html\"",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "postinstall": "node scripts/setup-tooling.js"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "eslint": "10.13.0",
+    "globals": "17.13.0",
+    "html-validate": "11.17.0",
+    "prettier": "3.9.10",
+    "stylelint": "17.16.0",
+    "stylelint-config-standard": "40.0.0"
+  },
+  "engines": {
+    "node": ">=24.8.0"
+  }
+}

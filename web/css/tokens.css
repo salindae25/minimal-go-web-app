@@ -1,0 +1,19 @@
+/* Structural defaults adapted from px0. Palettes live in ../themes/. */
+:root {
+  --mono: 'SF Mono', menlo, consolas, ui-monospace, monospace;
+  --ui: -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, helvetica, arial, sans-serif;
+  --fs: 13px;
+  --r: 2px;
+  --r-lg: 4px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --sidebar-width: 240px;
+  --on-accent: var(--bg);
+  --scrim: color-mix(in srgb, var(--bg) 60%, transparent);
+  --success: var(--gi, var(--s));
+  --warning: var(--mark-active);
+  --danger: var(--err);
+}

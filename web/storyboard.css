@@ -1,0 +1,44 @@
+/* Dev-only gallery layout; reusable styling belongs in css/components.css. */
+.storyboard__title {
+  margin-top: 16px;
+}
+
+.storyboard__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.storyboard__note {
+  margin: 0;
+  color: var(--dim);
+}
+
+.storyboard__tokens {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 12px;
+}
+
+.storyboard__swatch {
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+
+.storyboard__sample {
+  height: 64px;
+  border-bottom: 1px solid var(--line);
+}
+
+.storyboard__token {
+  display: block;
+  padding: 10px;
+  color: var(--fg);
+}
+
+@media (width <= 1000px) {
+  .storyboard__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

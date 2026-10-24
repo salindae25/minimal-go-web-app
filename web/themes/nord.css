@@ -1,0 +1,58 @@
+/* Nord: based on the Nord palette. Token reference: docs/ui-conventions.md. */
+:root[data-theme='nord'] {
+  --on-accent: #000; /* Accessible text on the accent fill. */
+  --theme-name: 'Nord';
+
+  color-scheme: dark;
+
+  /* surfaces, from the editor out to raised hover states */
+  --bg: #2e3440;
+  --bg2: #292e39;
+  --bg3: #3b4252;
+  --bg4: #434c5e;
+
+  /* text: primary, secondary, tertiary */
+  --fg: #d8dee9;
+  --dim: #a5aebd;
+  --faint: #616e88;
+
+  /* borders and accent */
+  --line: #3b4252;
+  --accent: #88c0d0;
+  --accent-fg: #8fbcbb;
+
+  /* selection, search matches, current line */
+  --sel: #434c5e;
+  --mark: rgb(235 203 139 / 25%);
+  --mark-active: #d08770;
+  --cur: #353b49;
+
+  /* elevation */
+  --shadow: 0 4px 16px rgb(22 26 33 / 70%);
+
+  /* syntax */
+  --k: #81a1c1;
+  --kt: #81a1c1;
+  --nf: #88c0d0;
+  --nc: #8fbcbb;
+  --nb: #88c0d0;
+  --nv: #d8dee9;
+  --no: #b48ead;
+  --na: #8fbcbb;
+  --nt: #81a1c1;
+  --nd: #d08770;
+  --np: #d8dee9;
+  --s: #a3be8c;
+  --m: #b48ead;
+  --o: #81a1c1;
+  --p: #eceff4;
+  --c: #616e88;
+  --cp: #5e81ac;
+  --err: #bf616a;
+
+  /* diffs and status */
+  --gi: #a3be8c;
+  --gd: #bf616a;
+  --gi-bg: rgb(163 190 140 / 15%);
+  --gd-bg: rgb(191 97 106 / 15%);
+}

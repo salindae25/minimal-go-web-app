@@ -1,0 +1,58 @@
+/* Catppuccin Mocha: based on the Catppuccin palette. Token reference: docs/ui-conventions.md. */
+:root[data-theme='catppuccin-mocha'] {
+  --on-accent: #000; /* Accessible text on the accent fill. */
+  --theme-name: 'Catppuccin Mocha';
+
+  color-scheme: dark;
+
+  /* surfaces, from the editor out to raised hover states */
+  --bg: #1e1e2e;
+  --bg2: #181825;
+  --bg3: #313244;
+  --bg4: #45475a;
+
+  /* text: primary, secondary, tertiary */
+  --fg: #cdd6f4;
+  --dim: #a6adc8;
+  --faint: #6c7086;
+
+  /* borders and accent */
+  --line: #11111b;
+  --accent: #cba6f7;
+  --accent-fg: #89b4fa;
+
+  /* selection, search matches, current line */
+  --sel: rgb(147 153 178 / 25%);
+  --mark: rgb(249 226 175 / 25%);
+  --mark-active: #fab387;
+  --cur: #272738;
+
+  /* elevation */
+  --shadow: 0 4px 16px rgb(17 17 27 / 70%);
+
+  /* syntax */
+  --k: #cba6f7;
+  --kt: #f9e2af;
+  --nf: #89b4fa;
+  --nc: #f9e2af;
+  --nb: #f38ba8;
+  --nv: #cdd6f4;
+  --no: #fab387;
+  --na: #f9e2af;
+  --nt: #89b4fa;
+  --nd: #fab387;
+  --np: #b4befe;
+  --s: #a6e3a1;
+  --m: #fab387;
+  --o: #89dceb;
+  --p: #bac2de;
+  --c: #9399b2;
+  --cp: #f5c2e7;
+  --err: #f38ba8;
+
+  /* diffs and status */
+  --gi: #a6e3a1;
+  --gd: #f38ba8;
+  --gi-bg: rgb(166 227 161 / 15%);
+  --gd-bg: rgb(243 139 168 / 15%);
+}

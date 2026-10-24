@@ -1,0 +1,58 @@
+/* GitHub Dark: based on GitHub's dark default palette. Token reference: docs/ui-conventions.md. */
+:root[data-theme='github-dark'] {
+  --on-accent: #fff; /* Accessible text on the accent fill. */
+  --theme-name: 'GitHub Dark';
+
+  color-scheme: dark;
+
+  /* surfaces, from the editor out to raised hover states */
+  --bg: #0d1117;
+  --bg2: #010409;
+  --bg3: #161b22;
+  --bg4: #21262d;
+
+  /* text: primary, secondary, tertiary */
+  --fg: #e6edf3;
+  --dim: #8b949e;
+  --faint: #6e7681;
+
+  /* borders and accent */
+  --line: #30363d;
+  --accent: #1f6feb;
+  --accent-fg: #58a6ff;
+
+  /* selection, search matches, current line */
+  --sel: rgb(56 139 253 / 25%);
+  --mark: rgb(187 128 9 / 40%);
+  --mark-active: #d29922;
+  --cur: #161b22;
+
+  /* elevation */
+  --shadow: 0 4px 16px rgb(1 4 9 / 85%);
+
+  /* syntax */
+  --k: #ff7b72;
+  --kt: #ff7b72;
+  --nf: #d2a8ff;
+  --nc: #ffa657;
+  --nb: #79c0ff;
+  --nv: #ffa657;
+  --no: #79c0ff;
+  --na: #79c0ff;
+  --nt: #7ee787;
+  --nd: #d2a8ff;
+  --np: #79c0ff;
+  --s: #a5d6ff;
+  --m: #79c0ff;
+  --o: #ff7b72;
+  --p: #c9d1d9;
+  --c: #8b949e;
+  --cp: #ff7b72;
+  --err: #f85149;
+
+  /* diffs and status */
+  --gi: #3fb950;
+  --gd: #f85149;
+  --gi-bg: rgb(46 160 67 / 15%);
+  --gd-bg: rgb(248 81 73 / 15%);
+}

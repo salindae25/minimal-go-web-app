@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en" data-theme="catppuccin-mocha">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>UI foundation</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    <link rel="stylesheet" href="/static/themes.css" />
+    <script src="/static/theme-init.js"></script>
+    <link rel="stylesheet" href="/static/storyboard.css" />
+    <script type="module" src="/static/src/storyboard.js"></script>
+  </head>
+  <body>
+    <div class="app-shell" data-shell>
+      <header class="app-shell__header">
+        <button
+          type="button"
+          class="button button--icon"
+          data-sidebar-toggle
+          aria-controls="sidebar"
+          aria-expanded="true"
+          aria-label="Toggle sidebar"
+        >
+          ☰
+        </button>
+        <span class="app-shell__title">UI foundation</span>
+        <div class="app-shell__actions">
+          <label for="theme-select" class="sr-only">Theme</label>
+          <select class="select select--compact" id="theme-select" data-theme-select></select>
+        </div>
+      </header>
+      <aside id="sidebar" class="sidebar" aria-label="Sidebar">
+        <div class="sidebar__heading">Storyboard</div>
+        <nav class="sidebar__nav" aria-label="Main navigation">
+          <a class="sidebar__link" href="/">Application home</a
+          ><a class="sidebar__link" href="/dev/components" aria-current="page">All components</a>
+        </nav>
+        <div class="sidebar__footer"><span class="badge">Go + browser</span></div>
+      </aside>
+      <div
+        class="resize-handle"
+        data-sidebar-resize
+        role="separator"
+        aria-label="Sidebar width"
+        aria-controls="sidebar"
+        aria-orientation="vertical"
+        aria-valuemin="180"
+        aria-valuemax="400"
+        aria-valuenow="240"
+        tabindex="0"
+      ></div>
+      <main class="app-shell__content" id="main-content">
+        <div class="tabs" role="tablist" aria-label="Storyboard views" data-tabs>
+          <button
+            type="button"
+            class="tabs__tab"
+            role="tab"
+            id="tab-components"
+            aria-selected="true"
+            aria-controls="view-components"
+          >
+            Components
+          </button>
+          <button
+            type="button"
+            class="tabs__tab"
+            role="tab"
+            id="tab-themes"
+            aria-selected="false"
+            aria-controls="view-themes"
+            tabindex="-1"
+          >
+            Theme tokens
+          </button>
+        </div>
+        <div id="view-components" role="tabpanel" aria-labelledby="tab-components" tabindex="0">
+          <div class="page">
+            <div class="cluster">
+              <span class="badge">Development only</span><span class="badge">14 themes</span>
+            </div>
+            <h1 class="storyboard__title">Component storyboard</h1>
+            <p class="page__intro">
+              px0's compact UI foundation. Change the theme above, resize the sidebar, and try each
+              component.
+            </p>
+            <div class="storyboard__grid">
+              <section class="panel" id="controls">
+                <div class="panel__header">
+                  <h2 class="panel__title">Buttons &amp; status</h2>
+                  <span class="badge">01</span>
+                </div>
+                <div class="panel__body stack">
+                  <div class="cluster">
+                    <button
+                      type="button"
+                      class="button button--primary"
+                      data-demo-action="Primary action"
+                    >
+                      Primary</button
+                    ><button type="button" class="button" data-demo-action="Secondary action">
+                      Secondary</button
+                    ><button
+                      type="button"
+                      class="button button--quiet"
+                      data-demo-action="Quiet action"
+                    >
+                      Quiet</button
+                    ><button type="button" class="button" disabled>Disabled</button>
+                  </div>
+                  <div class="cluster">
+                    <span class="badge">Neutral</span
+                    ><span class="badge badge--success">Success</span
+                    ><span class="badge badge--warning">Warning</span><kbd class="keycap">Esc</kbd>
+                  </div>
+                </div>
+              </section>
+              <section class="panel" id="notifications">
+                <div class="panel__header">
+                  <h2 class="panel__title">Toasts &amp; popovers</h2>
+                  <span class="badge">02</span>
+                </div>
+                <div class="panel__body stack">
+                  <p class="storyboard__note">
+                    A toast announces a result without taking focus. Popovers support Escape and
+                    outside-click dismissal.
+                  </p>
+                  <div class="cluster">
+                    <button type="button" class="button" data-demo-toast="info">Info toast</button
+                    ><button type="button" class="button" data-demo-toast="success">
+                      Success toast</button
+                    ><button type="button" class="button" data-demo-toast="error">
+                      Error toast</button
+                    ><button type="button" class="button" popovertarget="demo-popover">
+                      Open popover
+                    </button>
+                  </div>
+                </div>
+              </section>
+              <section class="panel" id="forms">
+                <div class="panel__header">
+                  <h2 class="panel__title">Form controls</h2>
+                  <span class="badge">03</span>
+                </div>
+                <div class="panel__body stack">
+                  <div class="field">
+                    <label class="field__label" for="display-name">Display name</label
+                    ><input
+                      type="text"
+                      id="display-name"
+                      class="input"
+                      placeholder="Your name"
+                      aria-describedby="name-hint"
+                    /><span class="field__hint" id="name-hint"
+                      >Labels and helper text stay connected.</span
+                    >
+                  </div>
+                  <label class="field"
+                    ><span class="field__label">Density</span
+                    ><select class="select">
+                      <option>Comfortable</option>
+                      <option>Compact</option>
+                    </select></label
+                  >
+                  <label class="field"
+                    ><span class="field__label">Notes</span
+                    ><textarea class="textarea" placeholder="Write a note…"></textarea>
+                  </label>
+                  <label class="cluster"
+                    ><input type="checkbox" class="checkbox" />Enable notifications</label
+                  >
+                </div>
+              </section>
+              <section class="panel" id="dialogs">
+                <div class="panel__header">
+                  <h2 class="panel__title">Dialog &amp; empty state</h2>
+                  <span class="badge">04</span>
+                </div>
+                <div class="panel__body stack">
+                  <div class="empty-state">
+                    <h3 class="empty-state__title">Nothing here yet</h3>
+                    <p class="storyboard__note">Start with a small action.</p>
+                  </div>
+                  <button type="button" class="button" id="open-dialog">Open dialog</button>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+        <div id="view-themes" role="tabpanel" aria-labelledby="tab-themes" tabindex="0" hidden>
+          <div class="page">
+            <h1>Theme tokens</h1>
+            <p class="page__intro">
+              Every component reads these CSS variables. Theme files are copied from px0; no palette
+              is hardcoded into component styles.
+            </p>
+            <div class="storyboard__tokens" id="token-grid"></div>
+          </div>
+        </div>
+      </main>
+      <footer class="app-shell__status">Component storyboard · development only</footer>
+    </div>
+    <div class="toast" data-toast role="status" aria-live="polite" aria-atomic="true" hidden></div>
+    <div id="demo-popover" class="popover" popover role="group" aria-label="Example actions">
+      <button type="button" class="popover__item" data-popover-action="First action">
+        First action
+      </button>
+      <button type="button" class="popover__item" data-popover-action="Second action">
+        Second action
+      </button>
+      <hr class="divider" />
+      <button
+        type="button"
+        class="popover__item"
+        popovertarget="demo-popover"
+        popovertargetaction="hide"
+      >
+        Close
+      </button>
+    </div>
+    <dialog class="dialog" id="demo-dialog" aria-labelledby="dialog-title">
+      <form method="dialog">
+        <div class="dialog__header">
+          <h2 class="dialog__title" id="dialog-title">Example dialog</h2>
+          <button
+            type="submit"
+            class="button button--icon"
+            value="cancel"
+            aria-label="Close dialog"
+          >
+            ×
+          </button>
+        </div>
+        <div class="dialog__body">
+          <label class="field"
+            ><span class="field__label">Name</span
+            ><input type="text" class="input" autofocus placeholder="Give it a name"
+          /></label>
+        </div>
+        <div class="dialog__footer">
+          <button type="submit" class="button" value="cancel">Cancel</button
+          ><button type="submit" class="button button--primary" value="save">Save example</button>
+        </div>
+      </form>
+    </dialog>
+  </body>
+</html>

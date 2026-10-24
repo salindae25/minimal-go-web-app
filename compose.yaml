@@ -1,0 +1,23 @@
+services:
+  app:
+    build:
+      context: .
+      target: runtime
+    ports:
+      - '${BIND_ADDRESS:-127.0.0.1}:${HOST_PORT:-8080}:8080'
+    environment:
+      HOST: 0.0.0.0
+      PORT: '8080'
+    restart: unless-stopped
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    # The app allows ten seconds for active requests to finish.
+    stop_grace_period: 15s
+    logging:
+      driver: json-file
+      options:
+        max-size: '10m'
+        max-file: '3'
