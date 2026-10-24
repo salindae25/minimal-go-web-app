@@ -1,6 +1,14 @@
 # Code quality practices
 
-These practices adapt the `thermo-nuclear-code-quality-review` skill to this small Go and browser template. They apply when implementing, refactoring, or reviewing a change. [Go conventions](go-conventions.md) and [UI conventions](ui-conventions.md) define the concrete layer contracts.
+These practices combine `thermo-nuclear-code-quality-review` with [Ponytail](https://github.com/DietrichGebert/ponytail/blob/main/skills/ponytail/SKILL.md) for this small Go and browser template. Ponytail full is the default approach to coding work. They apply when implementing, refactoring, or reviewing a change. [Go conventions](go-conventions.md) and [UI conventions](ui-conventions.md) define the concrete layer contracts.
+
+## Scope and smallest complete change
+
+Read the affected code before editing. Identify its callers, tests, fixtures, configuration, and exports, including compatibility, data-loss, and exposure risks. Complete those necessary updates together; keep unrelated improvements outside the change.
+
+Choose the first adequate solution: reuse the project's existing helper or component, use the standard library or browser platform, use an installed dependency, then write the minimum clear code. Add a dependency only when its benefit justifies it. A readable small diff is the goal; preserve validation, error handling, accessibility, and requested behavior.
+
+For a bug, inspect every caller and repair the shared cause. For nontrivial new behavior, add a focused test or an assertion-based check. Document deliberate shortcuts near the code as `shortcut: <limit>, <when to upgrade>`. Explain verification and material remaining uncertainty in the handoff.
 
 ## Design for fewer moving parts
 
@@ -34,4 +42,4 @@ Before considering the work complete, review the diff for structural regressions
 
 ## Source
 
-Adapted from the locally installed `thermo-nuclear-code-quality-review` skill, originally read from `/Users/salindae/.agents/skills/thermo-nuclear-code-quality-review/SKILL.md`. This document is self-contained; contributors do not need that local installation.
+Adapted from the locally installed `thermo-nuclear-code-quality-review` skill, originally read from `/Users/salindae/.agents/skills/thermo-nuclear-code-quality-review/SKILL.md`. The smallest-change practices also draw on [Ponytail by DietrichGebert](https://github.com/DietrichGebert/ponytail/blob/main/skills/ponytail/SKILL.md), read on 2026-10-24. This document is self-contained; contributors do not need either skill installed.
