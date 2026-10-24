@@ -1,22 +1,23 @@
-import { $ } from './dom.js';
-import { api } from './api.js';
-import { initTheme } from './theme.js';
-import { initSidebar } from './components.js';
+import { createApp } from 'vue';
+import { createPinia } from 'pinia';
+import { createRouter, createWebHistory } from 'vue-router';
+import './style.css';
+import App from './App.vue';
+import HomeView from './views/HomeView.vue';
+import StateView from './views/StateView.vue';
+import NotFoundView from './views/NotFoundView.vue';
 
-initTheme();
-initSidebar(document.querySelector('[data-shell]'));
+const routes = [
+  { path: '/', name: 'home', component: HomeView },
+  { path: '/state', name: 'state', component: StateView },
+  { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFoundView },
+];
 
-const helloButton = $('#hello-button');
-const helloResult = $('#hello-result');
-helloButton.addEventListener('click', async () => {
-  helloButton.disabled = true;
-  helloResult.textContent = 'Loading…';
-  try {
-    const data = await api('/api/hello', { signal: AbortSignal.timeout(10000) });
-    helloResult.textContent = data.message;
-  } catch (error) {
-    helloResult.textContent = error.message || 'Could not reach the server.';
-  } finally {
-    helloButton.disabled = false;
-  }
-});
+const router = createRouter({ history: createWebHistory(), routes });
+
+if (import.meta.env.DEV) {
+  const { default: StoryboardView } = await import('./views/StoryboardView.vue');
+  router.addRoute({ path: '/dev/components', name: 'components', component: StoryboardView });
+}
+
+createApp(App).use(createPinia()).use(router).mount('#app');

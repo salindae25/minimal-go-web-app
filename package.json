@@ -3,26 +3,40 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node scripts/build-web.js",
-    "check": "node scripts/check-web.js",
+    "build": "vite build",
+    "check": "node scripts/setup-tooling.js && node --test web/tests/*.test.js",
     "lint": "npm run lint:js && npm run lint:css && npm run lint:html",
     "lint:js": "eslint . --max-warnings 0",
     "lint:css": "stylelint \"web/**/*.css\" --max-warnings 0",
-    "lint:html": "html-validate \"web/*.html\"",
+    "lint:html": "html-validate web/index.html",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "postinstall": "node scripts/setup-tooling.js"
+    "postinstall": "node scripts/setup-tooling.js",
+    "dev": "vite",
+    "dev:all": "node scripts/dev.js"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
+    "@tailwindcss/vite": "4.3.3",
+    "@vitejs/plugin-vue": "6.0.10",
     "eslint": "10.13.0",
+    "eslint-plugin-vue": "10.11.1",
     "globals": "17.13.0",
     "html-validate": "11.17.0",
     "prettier": "3.9.10",
     "stylelint": "17.16.0",
-    "stylelint-config-standard": "40.0.0"
+    "stylelint-config-standard": "40.0.0",
+    "tailwindcss": "4.3.3",
+    "vite": "7.3.7",
+    "vue-eslint-parser": "10.4.1"
   },
   "engines": {
     "node": ">=24.8.0"
+  },
+  "dependencies": {
+    "@vue/devtools-api": "8.2.1",
+    "pinia": "4.1.0",
+    "vue": "3.5.44",
+    "vue-router": "4.6.4"
   }
 }

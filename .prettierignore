@@ -1,6 +1,6 @@
 bin/
 node_modules/
-web/app.js
+web/dist/
 package-lock.json
 LICENSE
 # Independent research notes are outside the maintained source/docs format contract.

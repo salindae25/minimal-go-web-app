@@ -1,24 +1,17 @@
 # Go conventions
 
-This template uses the standard library and a small `package main` server. Keep that scale: use `http.ServeMux` with explicit method-aware routes and focused handler functions. Add an `internal` package when a concern becomes independently useful or has a clear boundary, not as a default layer for every file.
+The template uses the standard library and a small `package main` server. Keep that scale: use `http.ServeMux` with explicit method-aware routes and focused handlers. Add an `internal` package when a concern becomes independently useful or has a clear boundary.
 
-## HTTP handlers
+## HTTP and frontend routing
 
-- Keep route registration visible and explicit. Return 404 for unknown routes and 405 for unsupported methods where the endpoint contract calls for it.
-- Parse and validate request input at the handler boundary. Set response headers before writing, encode JSON with the standard library, and stop after writing an error response.
-- Pass `r.Context()` to work that can block or be cancelled. Avoid background work detached from the request unless it has an explicit lifecycle.
-- Keep handlers small by extracting meaningful operations, not generic wrappers. Use standard-library types and errors until a concrete need justifies more abstraction.
+Keep API routes explicit under `/api/`; validate inputs at the handler boundary, set headers before writing, encode JSON with the standard library, and stop after writing an error response. Pass `r.Context()` to cancellable work. Unknown API paths and unsupported methods should return the documented 404/405 responses.
+
+Production embeds the Vite output at `web/dist`. Serve built assets with immutable caching when content-hashed, and serve the SPA entry document without caching for frontend routes so Vue Router can handle HTML5 history paths. Keep `/api/*`, `/healthz`, `/assets/*`, and `/dev/*` server-owned paths out of SPA fallback. Development mode serves API/health endpoints while Vite serves the frontend and proxies backend paths; do not duplicate the frontend development server in Go.
 
 ## Configuration and lifecycle
 
-Read process configuration at startup from environment variables using the existing defaults and validation. Keep local development mode explicit through the existing development flag; avoid hidden environment-dependent behavior. Keep `.env` parsing out of the server unless the template adopts a documented dependency and contract.
+Read process configuration at startup from environment variables using the existing defaults and validation. Keep development mode explicit through the existing flag. Keep `.env` parsing out of the server unless the template adopts a documented dependency and contract.
 
-Construct the handler with its asset mode explicit so disk-backed development assets and embedded production assets remain distinct. Keep startup, listener errors, signal handling, and graceful shutdown in the server lifecycle boundary. Use a bounded shutdown context and close resources owned by the process there.
+Keep startup, listener errors, signal handling, and graceful shutdown in the server lifecycle boundary. Use a bounded shutdown context and close resources owned by the process there. Handle errors where useful context or the correct HTTP response can be added; wrap with `%w` when callers need to inspect an error. Configure HTTP timeouts deliberately and avoid panics for runtime request/configuration errors.
 
-## Errors and timeouts
-
-Handle errors at the boundary that can add useful context or produce the correct HTTP response. Wrap errors with `%w` when callers need to inspect them. Configure server read/header/write/idle timeouts deliberately; use request contexts and deadlines for downstream operations. Avoid panics for runtime request or configuration errors.
-
-Match surrounding formatting and naming: idiomatic mixed-case Go identifiers, short concrete functions, and comments that explain exported declarations or non-obvious decisions. Prefer direct code over architectural frameworks or speculative abstractions.
-
-When adding a Go package, include its directory in Docker's explicit source-copy instructions and run the container build. Keep development-only routes conditional on the development flag, and keep their markup, example scripts, and styles outside the production embed list.
+Match surrounding formatting and naming: idiomatic mixed-case Go identifiers, short concrete functions, and comments for exported declarations or non-obvious decisions. Prefer direct code over speculative abstractions. Keep gallery-only route handling conditional on development; production gallery code is excluded by the frontend build.

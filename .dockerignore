@@ -9,6 +9,7 @@ node_modules/
 coverage*
 *.log
 .DS_Store
-web/app.js
 README.md
 compose*.yaml
+
+web/dist/

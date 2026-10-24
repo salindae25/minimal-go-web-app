@@ -1,12 +1,14 @@
 import js from '@eslint/js';
 import globals from 'globals';
+import vue from 'eslint-plugin-vue';
 
 export default [
-  { ignores: ['web/app.js', 'bin/**', 'node_modules/**'] },
+  { ignores: ['web/dist/**', 'bin/**', 'node_modules/**'] },
   js.configs.recommended,
-  { files: ['web/**/*.js'], languageOptions: { globals: globals.browser } },
+  ...vue.configs['flat/essential'],
+  { files: ['web/src/**/*.js', 'web/src/**/*.vue'], languageOptions: { globals: globals.browser } },
   {
-    files: ['scripts/**/*.js', '*.config.js', '*.config.mjs'],
+    files: ['scripts/**/*.js', 'web/tests/**/*.js', '*.config.js', '*.config.mjs'],
     languageOptions: { globals: globals.node },
   },
   {

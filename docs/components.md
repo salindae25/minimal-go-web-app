@@ -1,44 +1,28 @@
 # UI component inventory
 
-The starter provides reusable visual patterns in `web/css/components.css` and a small set of behavior helpers in `web/src/`. The `/dev/components` storyboard demonstrates their combinations when the server runs with `-dev`; it is development-only and excluded from production embedding.
+Reusable Vue components live in `web/src/components/`; route views live in `web/src/views/`. The development-only component gallery is `/dev/components` and is excluded from production builds.
 
 ## Inventory
 
-| Pattern                 | Classes / composition                                                        | Behavior                                                                                                                                                                                                                                                |
-| ----------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| App shell               | `.app-shell`, `__header`, `__title`, `__actions`, `__content`, `__status`    | `initSidebar(shell)` initializes responsive sidebar state with `[data-sidebar-toggle]`; `[data-sidebar-resize]` adds optional resizing.                                                                                                                 |
-| Sidebar                 | `.sidebar`, `__heading`, `__nav`, `__link`, `__footer`                       | Toggle sets `aria-expanded`; shell gets `.app-shell--sidebar-hidden`. Resize handle supports pointer and arrow/Home/End keys and updates `aria-valuenow` / `aria-valuemax`.                                                                             |
-| Page layout             | `.page`, `.page__intro`, `.stack`, `.cluster`                                | CSS layout only.                                                                                                                                                                                                                                        |
-| Buttons                 | `.button`, `--primary`, `--quiet`, `--icon`                                  | Native button/link semantics.                                                                                                                                                                                                                           |
-| Panel                   | `.panel`, `__header`, `__title`, `__body`, `__footer`                        | CSS composition only.                                                                                                                                                                                                                                   |
-| Fields                  | `.field`, `__label`, `__hint`, `.input`, `.select`, `.textarea`, `.checkbox` | Use native labels and controls; associate hints with `aria-describedby` when useful.                                                                                                                                                                    |
-| Badge and keycap        | `.badge`, `--success`, `--warning`, `.keycap`                                | Presentational.                                                                                                                                                                                                                                         |
-| Tabs                    | `.tabs`, `__tab`                                                             | `initTabs(root)` expects descendants with `role="tab"`, each with `aria-controls` pointing to a panel ID. It maintains one selected tab, roving `tabindex`, panel `hidden`, and arrow/Home/End navigation. Use the tablist/tab/tabpanel ARIA structure. |
-| Dialog                  | `.dialog`, `__header`, `__title`, `__body`, `__footer`                       | Native `<dialog>`; use `showModal()` and native close/return-value behavior.                                                                                                                                                                            |
-| Popover                 | `.popover`, `__item`                                                         | Native Popover API; trigger and target must be connected with `popovertarget` or equivalent behavior.                                                                                                                                                   |
-| Divider and empty state | `.divider`, `.empty-state`, `__title`                                        | Presentational.                                                                                                                                                                                                                                         |
-| Toast                   | `.toast`, `.toast-icon-*`, `.toast-chip`, `.toast-msg`, `--error`            | `showToast(message, { tone, duration })` writes message as text, replaces current toast, then hides it after the duration. Requires `[data-toast]`; tones are informational labels, with error styling for `tone: 'error'`.                             |
-| Screen-reader utility   | `.sr-only`                                                                   | Visually hides content while keeping it available to assistive technology.                                                                                                                                                                              |
+| Component or view | File                               | Contract                                                                                                                                                   |
+| ----------------- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Application shell | `web/src/App.vue`                  | Owns shared header, theme selector, responsive sidebar, navigation, toast host, and `<RouterView>`. The shared counter stays visible across route changes. |
+| Button            | `web/src/components/UiButton.vue`  | Native `<button>` with `variant` (`default`, `primary`, `quiet`), `type`, disabled state, and slot content.                                                |
+| Panel             | `web/src/components/UiPanel.vue`   | Section with required `title` and default slot.                                                                                                            |
+| Toast host        | `web/src/components/ToastHost.vue` | Renders toast store state with live-region semantics. Trigger through the toast store.                                                                     |
+| Home              | `web/src/views/HomeView.vue`       | Calls `GET /api/hello` through the API helper and demonstrates loading/error/result states.                                                                |
+| Shared state      | `web/src/views/StateView.vue`      | Demonstrates counter actions backed by Pinia.                                                                                                              |
+| Not found         | `web/src/views/NotFoundView.vue`   | Vue Router catch-all page with a link home.                                                                                                                |
+| Component gallery | `web/src/views/StoryboardView.vue` | Development-only examples of controls, forms, tabs, native dialog/popover, toasts, and theme tokens.                                                       |
 
-## Composition and behavior
+Vue views use Tailwind utility classes for local layout, alongside semantic HTML and shared component classes. Gallery-only styles are in `web/storyboard.css`, imported by the lazy gallery view. Add a reusable component when a visual or interaction pattern appears in multiple places; keep one-off composition in its view. Prefer native controls, `<dialog>`, and the Popover API where their browser behavior fits.
 
-Compose patterns with semantic HTML and native controls. Add a component when a visual or interaction pattern is reused; keep one-off page composition in the page markup. Keep visual classes separate from JavaScript hooks: use BEM classes for styling and `data-*` attributes for behavior. Use native state attributes as the canonical state where available (`aria-selected`, `aria-expanded`, `hidden`); styling should follow that state rather than a parallel state class.
+## Vue and state conventions
 
-Behavior helpers are explicit initializers, not a framework. Call them with the relevant root after its markup exists. `initTabs` requires at least one tab and valid panel IDs; `initSidebar` returns without setup if the shell or toggle hook is missing; resizing is optional. Toast calls safely do nothing when no `[data-toast]` target exists.
+Use Vue 3 single-file components with `<script setup>` and Composition API. Keep view-specific state in `ref`/`computed`. Use Pinia for state shared across routes or for state with a clear shared lifecycle: the counter, theme, and toast stores are the examples. Put mutations and side effects in store actions. Route-specific navigable state belongs in the URL.
 
-## Use the storyboard
+The router uses HTML5 history. Add routes in `web/src/main.js`; keep the catch-all route last. The `/dev/components` route is registered only inside `import.meta.env.DEV` and loaded with a dynamic import so gallery code stays out of production output. Keep its examples in `StoryboardView.vue` and gallery-only styles in `web/storyboard.css`; the view imports that stylesheet.
 
-Run `make dev`, then open http://127.0.0.1:8080/dev/components. The application sidebar links to it in development. All 14 themes, sidebar resizing, tab keyboard navigation, buttons, form controls, badges, dialogs, popovers, and notification tones can be inspected there. The root application remains the small API example.
+Do not add imperative DOM initializers for interactions already expressed by Vue. Use Vue bindings and lifecycle hooks; remove global listeners and timers when their owner is disposed. Keep styling classes separate from behavior and use semantic/ARIA state as the accessible source of truth.
 
-`web/components.html`, `web/storyboard.css`, and `web/src/storyboard.js` contain only gallery examples and are never embedded into the production binary. Their routes return 404 in production. Keep new examples there rather than adding demonstration behavior to the production entry point.
-
-The sidebar starts collapsed on small screens and expands inline above the content; it does not cover interactive content. The resize handle is a desktop enhancement. Native dialogs require modern browsers with `<dialog>` support, and popovers require the native Popover API.
-
-## Minimal toast usage
-
-```js
-import { showToast } from './toast.js';
-showToast('Changes saved.', { tone: 'success' });
-```
-
-Include one empty, hidden `.toast` element with `data-toast`, `role="status"`, `aria-live="polite"`, and `aria-atomic="true"`. Repeated notifications replace the current one. Put actionable or persistent errors in the affected component rather than relying on an expiring toast.
+When adding a component, update this inventory and include a useful example in the development gallery when the component is reusable. Check keyboard use, visible focus, narrow layouts, reduced motion, themes, and relevant loading/error/disabled states. Add store behavior tests under `web/tests/` when changing shared state. Run the repository checks and inspect the production build when changing route or gallery loading behavior.

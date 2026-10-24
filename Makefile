@@ -4,12 +4,15 @@ STATICCHECK_VERSION := v0.8.2
 STATICCHECK := $(CURDIR)/bin/tools/$(STATICCHECK_VERSION)/staticcheck
 
 web:
-	node scripts/build-web.js
+	npm run build
 
 web-check: web
-	node scripts/check-web.js
+	npm run check
 
 dev:
+	npm run dev:all
+
+dev-api:
 	go run . -dev
 
 build: web
