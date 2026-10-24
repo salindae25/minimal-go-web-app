@@ -1,11 +1,16 @@
 <script setup>
+import { Button } from '@/components/ui/button';
+
+const variants = { default: 'secondary', primary: 'default', quiet: 'ghost' };
+
 defineProps({
   variant: { type: String, default: 'default' },
   type: { type: String, default: 'button' },
 });
 </script>
+
 <template>
-  <button :type="type" class="button" :class="variant !== 'default' ? `button--${variant}` : ''">
+  <Button :type="type" :variant="variants[variant] || 'secondary'" v-bind="$attrs">
     <slot />
-  </button>
+  </Button>
 </template>

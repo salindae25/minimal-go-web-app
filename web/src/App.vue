@@ -1,6 +1,17 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { RouterLink, RouterView, useRoute } from 'vue-router';
+import { MenuIcon } from '@lucide/vue';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { useCounterStore } from './stores/counter.js';
 import { useThemeStore } from './stores/theme.js';
 import { useToastStore } from './stores/toast.js';
@@ -13,7 +24,6 @@ const theme = useThemeStore();
 const toast = useToastStore();
 const sidebarOpen = ref(window.matchMedia('(min-width: 701px)').matches);
 const sidebarWidth = ref(240);
-const shell = ref(null);
 const resize = ref(null);
 const isHome = computed(() => route.name === 'home');
 let dragCleanup;
@@ -66,66 +76,89 @@ onUnmounted(() => {
 
 <template>
   <div
-    ref="shell"
-    class="app-shell min-h-screen"
-    :class="{ 'app-shell--sidebar-hidden': !sidebarOpen }"
+    class="grid h-dvh overflow-hidden grid-rows-[48px_minmax(0,1fr)_26px] max-[700px]:grid-cols-[minmax(0,1fr)] max-[700px]:grid-rows-[48px_auto_minmax(0,1fr)_26px]"
+    :class="
+      sidebarOpen
+        ? 'grid-cols-[var(--sidebar-width)_4px_minmax(0,1fr)]'
+        : 'grid-cols-[minmax(0,1fr)]'
+    "
     :style="{ '--sidebar-width': `${sidebarWidth}px` }"
   >
-    <header class="app-shell__header flex items-center gap-3 px-4">
-      <button
-        class="button button--icon"
+    <header
+      class="col-span-full row-start-1 flex items-center gap-3 border-b border-border bg-card px-4"
+    >
+      <Button
+        variant="ghost"
+        size="icon"
         type="button"
         aria-controls="sidebar"
         :aria-expanded="sidebarOpen"
         aria-label="Toggle sidebar"
         @click="sidebarOpen = !sidebarOpen"
       >
-        ☰
-      </button>
-      <RouterLink class="app-shell__title hidden no-underline sm:block" to="/"
-        >Go web template</RouterLink
-      >
-      <span class="badge" aria-label="Shared counter">Count {{ counter.count }}</span>
-      <div class="app-shell__actions">
+        <MenuIcon />
+      </Button>
+      <RouterLink class="hidden font-semibold text-foreground no-underline sm:block" to="/">
+        Go web template
+      </RouterLink>
+      <Badge variant="outline" aria-label="Shared counter">Count {{ counter.count }}</Badge>
+      <div class="ml-auto flex items-center gap-2">
         <label class="sr-only" for="theme-select">Theme</label>
-        <select
-          id="theme-select"
-          class="select select--compact"
-          :value="theme.activeTheme"
-          @change="theme.setTheme($event.target.value)"
-        >
-          <option v-for="item in theme.themes" :key="item.id" :value="item.id">
-            {{ item.name }}
-          </option>
-        </select>
+        <Select :model-value="theme.activeTheme" @update:model-value="theme.setTheme($event)">
+          <SelectTrigger id="theme-select" class="h-8 w-[min(11rem,35vw)]">
+            <SelectValue placeholder="Choose theme" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem v-for="item in theme.themes" :key="item.id" :value="item.id">
+                {{ item.name }}
+              </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </div>
     </header>
-    <aside v-show="sidebarOpen" id="sidebar" class="sidebar" aria-label="Sidebar">
-      <div class="sidebar__heading">Application</div>
-      <nav class="sidebar__nav" aria-label="Main navigation">
-        <RouterLink class="sidebar__link" to="/" :aria-current="isHome ? 'page' : undefined"
-          >Home</RouterLink
-        >
+
+    <aside
+      v-show="sidebarOpen"
+      id="sidebar"
+      class="col-start-1 row-start-2 flex min-h-0 flex-col overflow-auto border-r border-border bg-card max-[700px]:row-start-2 max-[700px]:max-h-[35dvh] max-[700px]:border-r-0 max-[700px]:border-b"
+      aria-label="Sidebar"
+    >
+      <div class="px-3 pt-4 pb-2 text-xs font-semibold text-muted-foreground">Application</div>
+      <nav class="grid gap-0.5 px-2" aria-label="Main navigation">
         <RouterLink
-          class="sidebar__link"
+          class="rounded-sm px-2.5 py-2 text-sm text-muted-foreground no-underline hover:bg-muted hover:text-foreground aria-[current=page]:bg-muted aria-[current=page]:text-foreground"
+          to="/"
+          :aria-current="isHome ? 'page' : undefined"
+        >
+          Home
+        </RouterLink>
+        <RouterLink
+          class="rounded-sm px-2.5 py-2 text-sm text-muted-foreground no-underline hover:bg-muted hover:text-foreground aria-[current=page]:bg-muted aria-[current=page]:text-foreground"
           to="/state"
           :aria-current="route.name === 'state' ? 'page' : undefined"
-          >Shared state</RouterLink
         >
+          Shared state
+        </RouterLink>
         <RouterLink
           v-if="isDevelopment"
-          class="sidebar__link"
+          class="rounded-sm px-2.5 py-2 text-sm text-muted-foreground no-underline hover:bg-muted hover:text-foreground aria-[current=page]:bg-muted aria-[current=page]:text-foreground"
           to="/dev/components"
           :aria-current="route.name === 'components' ? 'page' : undefined"
-          >Components</RouterLink
         >
+          Components
+        </RouterLink>
       </nav>
-      <div class="sidebar__footer"><span class="badge">Vue + Go</span></div>
+      <div class="mt-auto border-t border-border p-3">
+        <Badge variant="secondary">Vue + Go</Badge>
+      </div>
     </aside>
+
     <div
       v-show="sidebarOpen"
       ref="resize"
-      class="resize-handle"
+      class="col-start-2 row-start-2 w-1 cursor-col-resize touch-none hover:bg-accent focus-visible:bg-accent max-[700px]:hidden"
       role="separator"
       aria-label="Sidebar width"
       aria-controls="sidebar"
@@ -137,10 +170,24 @@ onUnmounted(() => {
       @pointerdown="startResize"
       @keydown="onResizeKey"
     ></div>
-    <main id="main-content" class="app-shell__content">
+
+    <main
+      id="main-content"
+      class="min-w-0 overflow-auto bg-background"
+      :class="
+        sidebarOpen
+          ? 'col-start-3 row-start-2 max-[700px]:col-start-1 max-[700px]:row-start-3'
+          : 'col-span-full row-start-2 max-[700px]:row-start-2'
+      "
+    >
       <RouterView />
     </main>
-    <footer class="app-shell__status">Ready</footer>
+    <footer
+      class="col-span-full row-start-3 flex items-center border-t border-border bg-card px-3 text-xs text-muted-foreground"
+      :class="sidebarOpen ? 'max-[700px]:row-start-4' : 'max-[700px]:row-start-3'"
+    >
+      Ready
+    </footer>
     <ToastHost />
   </div>
 </template>

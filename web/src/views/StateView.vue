@@ -7,8 +7,8 @@ const counter = useCounterStore();
 <template>
   <div class="mx-auto grid w-full max-w-5xl gap-6 px-4 py-8 sm:px-8">
     <div>
-      <h1>Shared state</h1>
-      <p class="mb-7 max-w-prose text-muted">
+      <h1 class="mb-2 text-2xl font-semibold tracking-tight">Shared state</h1>
+      <p class="mb-7 max-w-prose text-muted-foreground">
         This Pinia counter remains available in the header as you navigate.
       </p>
     </div>

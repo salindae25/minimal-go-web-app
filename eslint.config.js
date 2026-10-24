@@ -8,6 +8,10 @@ export default [
   ...vue.configs['flat/essential'],
   { files: ['web/src/**/*.js', 'web/src/**/*.vue'], languageOptions: { globals: globals.browser } },
   {
+    files: ['web/src/components/ui/**/*.vue'],
+    rules: { 'vue/multi-word-component-names': 'off' },
+  },
+  {
     files: ['scripts/**/*.js', 'web/tests/**/*.js', '*.config.js', '*.config.mjs'],
     languageOptions: { globals: globals.node },
   },

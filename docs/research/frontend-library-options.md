@@ -6,7 +6,7 @@
 
 **htmx** is the conditional second choice when Go should render HTML fragments for forms, navigation, or partial updates. Its central model is HTML over the wire; it does not directly replace the template’s current JSON API pattern ([htmx docs](https://htmx.org/docs/)). The two can coexist, but using htmx with only JSON responses misses its main benefit.
 
-Neither is a visual component library. Styling, palettes, and native controls remain the responsibility of the template’s CSS and HTML ([component inventory](../components.md), [UI conventions](../ui-conventions.md)).
+Neither is a visual component library. Styling and palettes use Tailwind utilities and the template’s shadcn-vue primitives; native controls remain an option when no suitable primitive exists ([component inventory](../components.md), [UI conventions](../ui-conventions.md)).
 
 ## Project fit
 

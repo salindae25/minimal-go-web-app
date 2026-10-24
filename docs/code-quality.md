@@ -18,7 +18,7 @@ Use direct standard-library and browser APIs where they express the task clearly
 
 ## Keep ownership and contracts clear
 
-Keep HTTP validation and responses at the server boundary, lifecycle management in startup/shutdown code, palette values in themes, reusable visuals in component CSS, and examples in the development storyboard. Reuse the canonical API, theme, DOM, and notification helpers instead of near-duplicates.
+Keep HTTP validation and responses at the server boundary, lifecycle management in startup/shutdown code, palette values in themes, reusable visuals in shared Vue components, and examples in the development storyboard. Use Tailwind utilities and shadcn-vue primitives for frontend styling and controls. Reuse the canonical API, theme, DOM, and notification helpers instead of near-duplicates.
 
 Handle special cases where their meaning belongs. Avoid scattering checks for one feature across shared code. Choose one canonical state representation, such as an ARIA attribute or a validated Go configuration value, and derive related presentation from it.
 

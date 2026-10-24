@@ -16,7 +16,8 @@ const themes = Object.entries(palettes)
         .match(/--theme-name:\s*([^;]+);/)?.[1]
         ?.trim()
         .replace(/^["']|["']$/g, '') || id;
-    return { id, name };
+    const scheme = /color-scheme:\s*dark\b/.test(css) ? 'dark' : 'light';
+    return { id, name, scheme };
   })
   .sort((a, b) => a.name.localeCompare(b.name));
 const storageKey = 'minimal-go-server-template.theme';
@@ -49,6 +50,8 @@ export const useThemeStore = defineStore('theme', {
     setTheme(id, persist = true) {
       if (!this.themes.some((theme) => theme.id === id)) return;
       this.activeTheme = id;
+      const selectedTheme = this.themes.find((theme) => theme.id === id);
+      document.documentElement.classList.toggle('dark', selectedTheme.scheme === 'dark');
       document.documentElement.dataset.theme = id;
       if (persist) {
         try {

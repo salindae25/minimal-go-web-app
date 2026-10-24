@@ -1,6 +1,6 @@
 # Minimal Go server template
 
-A small Go API and Vue 3 frontend extracted from [px0](https://github.com/px0-ai/px0). Vite builds the frontend, Vue Router handles client routes, Pinia holds shared UI state, and the production Go binary embeds the built assets.
+A small Go API and Vue 3 frontend extracted from [px0](https://github.com/px0-ai/px0). Vite builds the frontend, Vue Router handles client routes, Pinia holds shared UI state, and the production Go binary embeds the built assets. Tailwind CSS 4 and source-owned shadcn-vue components provide the client styling and controls; the existing palette files theme those components through semantic tokens.
 
 ## Develop
 
@@ -33,10 +33,11 @@ web/index.html          Vite document shell
 web/src/main.js         Vue app, Pinia, and Vue Router setup
 web/src/App.vue         shared app shell and navigation
 web/src/components/     reusable Vue single-file components
+web/src/components/ui/  shadcn-vue primitives owned by this project
 web/src/views/          route views, including API and state examples
 web/src/stores/         shared counter, theme, and toast state
-web/src/style.css       Tailwind 4 entry and theme aliases
-web/css/                structural tokens, base, layout, and component styles
+web/src/style.css       Tailwind 4 entry and shadcn-vue theme mapping
+components.json         shadcn-vue CLI configuration
 web/themes/             fourteen retained color palettes
 web/dist/               generated production frontend, embedded by Go
 ```
@@ -54,7 +55,7 @@ make build
 
 ## Extraction boundary
 
-The template retains the generic palette values and UI foundation from px0, adapted to Vue and Tailwind 4. px0's editor, workbench, Git, agent integrations, search UI, telemetry, updater, and product CLI are omitted. [UPSTREAM.md](UPSTREAM.md) records provenance; the upstream MIT license is retained in [LICENSE](LICENSE).
+The template retains px0's generic palette values, now mapped to Tailwind and shadcn-vue components. px0's editor, workbench, Git, agent integrations, search UI, telemetry, updater, and product CLI are omitted. [UPSTREAM.md](UPSTREAM.md) records provenance; the upstream MIT license is retained in [LICENSE](LICENSE).
 
 ## Docker and Compose
 

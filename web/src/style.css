@@ -1,16 +1,58 @@
 @import 'tailwindcss';
-@import '../css/tokens.css';
-@import '../css/base.css';
-@import '../css/layout.css';
-@import '../css/components.css';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --ui: -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, helvetica, arial, sans-serif;
+  --mono: 'SF Mono', menlo, consolas, ui-monospace, monospace;
+  --r: 2px;
+  --r-lg: 4px;
+  --success: var(--gi, var(--s));
+  --warning: var(--mark-active);
+  --danger: var(--err);
+}
 
 @theme inline {
+  /* Existing theme palettes drive both Tailwind and shadcn-vue. */
   --color-bg: var(--bg);
   --color-surface: var(--bg2);
   --color-text: var(--fg);
-  --color-muted: var(--dim);
   --color-accent: var(--accent);
   --color-border: var(--line);
+
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
+  --color-card: var(--bg2);
+  --color-card-foreground: var(--fg);
+  --color-popover: var(--bg2);
+  --color-popover-foreground: var(--fg);
+  --color-primary: var(--accent);
+  --color-primary-foreground: var(--on-accent);
+  --color-secondary: var(--bg3);
+  --color-secondary-foreground: var(--fg);
+  --color-muted: var(--bg3);
+  --color-muted-foreground: var(--dim);
+  --color-accent-foreground: var(--on-accent);
+  --color-destructive: var(--danger);
+  --color-destructive-foreground: var(--on-accent);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-input: var(--line);
+  --color-ring: var(--accent);
+
   --radius-ui: var(--r);
+  --radius-sm: var(--r);
+  --radius-md: var(--r);
+  --radius-lg: var(--r-lg);
+  --radius-xl: var(--r-lg);
+  --radius-2xl: var(--r-lg);
+  --font-sans: var(--ui);
+  --font-mono: var(--mono);
   --font-ui: var(--ui);
+  --font-heading: var(--font-sans);
+}
+
+@utility cn-font-heading {
+  font-family: var(--font-heading);
 }

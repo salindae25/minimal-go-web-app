@@ -14,12 +14,11 @@ Upstream copyright: Copyright (c) 2026 Arpit Bhayani. MIT license reproduced in 
 
 ## UI foundation extraction
 
-The following file paths describe the initial vanilla-JavaScript extraction; the Vue migration below supersedes its browser entry and bundler. Palette and CSS foundation provenance remains current.
+The following paths describe the initial extraction. The Vue migration replaced the browser entry; the shadcn-vue migration below removed the hand-written layout and component styles. Palette provenance remains current.
 
 - All 14 `web/themes/*.css` palettes are copied from the inspected px0 commit. Their documentation pointers point to this template's conventions, and each palette adds an accessible `--on-accent` foreground for primary buttons.
 - The initial `web/src/theme.js` retained px0's CSS-rule discovery approach; that discovery and the template-specific localStorage preference now live in the Pinia theme store. The settings API and product event bus were removed.
-- `web/css/layout.css` adapts px0's sidebar/resizer/status layout into reusable classes.
-- `web/css/components.css` adapts px0's compact controls, tabs, modal geometry, and toast CSS, with generic class names. Native dialog/popover behavior replaces product-specific overlay code.
+- The initial `web/css/layout.css` and `web/css/components.css` adapted px0's sidebar, controls, tabs, modal, and toast styles into generic classes. These files were removed when the client moved to Tailwind utilities and shadcn-vue components.
 - The initial `web/src/toast.js` adapted px0's toast lifecycle with safe text nodes and generic tones; toast state now lives in a Pinia store and renders through `ToastHost.vue`.
 - Storyboard, generic sidebar/tab interactions, and development-only routing are template additions.
 
@@ -30,6 +29,6 @@ Copied CSS palettes and adapted source have been formatted with the template's P
 ## Vue frontend migration
 
 - The original imperative browser entry, DOM helper, theme/toast modules, and handwritten asset bundler were replaced with Vue 3 single-file components, Vue Router, Pinia, and Vite.
-- The fourteen palette files and semantic UI foundation remain adapted from the inspected px0 version. Tailwind CSS 4 utilities and theme aliases are template additions.
+- The fourteen palette files remain adapted from the inspected px0 version. The current semantic theme mapping, Tailwind CSS 4 utilities, and shadcn-vue component source are template additions.
 - The component gallery is a development-only lazy route; production bundles omit its view.
 - Go embeds Vite's production output. The development frontend is served by Vite and proxies API/health requests to Go.

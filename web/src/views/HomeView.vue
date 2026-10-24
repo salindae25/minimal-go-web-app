@@ -23,8 +23,8 @@ async function callApi() {
 <template>
   <div class="mx-auto grid w-full max-w-5xl gap-6 px-4 py-8 sm:px-8">
     <div>
-      <h1>A small place to start.</h1>
-      <p class="mb-7 max-w-prose text-muted">
+      <h1 class="mb-2 text-2xl font-semibold tracking-tight">A small place to start.</h1>
+      <p class="mb-7 max-w-prose text-muted-foreground">
         A Go server, a Vue client, and reusable UI building blocks.
       </p>
     </div>
@@ -39,7 +39,11 @@ async function callApi() {
             >Show toast</UiButton
           >
         </div>
-        <output class="api-result" aria-live="polite">{{ result }}</output>
+        <output
+          class="block w-full rounded-md border border-border bg-muted/40 px-3 py-2 font-mono text-sm text-foreground"
+          aria-live="polite"
+          >{{ result }}</output
+        >
       </div>
     </UiPanel>
   </div>
