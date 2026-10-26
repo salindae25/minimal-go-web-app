@@ -1,6 +1,6 @@
 # Minimal Go server template
 
-A small Go API and Vue 3 frontend extracted from [px0](https://github.com/px0-ai/px0). Vite builds the frontend, Vue Router handles client routes, Pinia holds shared UI state, and the production Go binary embeds the built assets. Tailwind CSS 4 and source-owned shadcn-vue components provide the client styling and controls; the existing palette files theme those components through semantic tokens.
+A small Go API and Vue 3 frontend for a reusable web service starter. Vite builds the frontend, Vue Router handles client routes, Pinia holds shared UI state, and the production Go binary embeds the built assets. Tailwind CSS 4 and source-owned shadcn-vue components provide the client styling and controls; the palette files theme those components through semantic tokens.
 
 ## Develop
 
@@ -55,7 +55,7 @@ make build
 
 ## Extraction boundary
 
-The template retains px0's generic palette values, now mapped to Tailwind and shadcn-vue components. px0's editor, workbench, Git, agent integrations, search UI, telemetry, updater, and product CLI are omitted. [UPSTREAM.md](UPSTREAM.md) records provenance; the upstream MIT license is retained in [LICENSE](LICENSE).
+The template includes fourteen palettes mapped to Tailwind and shadcn-vue components. Its MIT license is in [LICENSE](LICENSE).
 
 ## Docker and Compose
 

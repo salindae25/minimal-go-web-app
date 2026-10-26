@@ -10,7 +10,7 @@ Use the components' `variant` and `size` props before adding new style branches.
 
 ## Theme palette contract
 
-The 14 retained px0 palettes are: `catppuccin-latte`, `catppuccin-mocha`, `dark`, `dracula`, `github-dark`, `gruvbox-dark`, `gruvbox-light`, `light`, `monokai`, `nord`, `one-dark`, `rose-pine`, `solarized-dark`, and `solarized-light`.
+The 14 available palettes are: `catppuccin-latte`, `catppuccin-mocha`, `dark`, `dracula`, `github-dark`, `gruvbox-dark`, `gruvbox-light`, `light`, `monokai`, `nord`, `one-dark`, `rose-pine`, `solarized-dark`, and `solarized-light`.
 
 The Pinia theme store discovers palette CSS and display names from `web/themes/*.css`. Add a file named `web/themes/<id>.css` with a root-level `[data-theme="<id>"]` selector, a human-facing `--theme-name`, and an appropriate `color-scheme`. Define the palette's existing surface, text, border, accent, syntax, and status variables. Keep `--on-accent` at a minimum 4.5:1 contrast with `--accent`.
 

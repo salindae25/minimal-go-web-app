@@ -1,4 +1,4 @@
-// Adapted from px0's request helper: same-origin JSON, explicit HTTP errors.
+// Keep API requests same-origin and turn non-success responses into clear errors.
 export async function api(path, { method = 'GET', body, signal } = {}) {
   const url = new URL(path, document.baseURI);
   if (url.origin !== location.origin) throw new Error('API requests must use the same origin.');
