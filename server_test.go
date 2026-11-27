@@ -35,6 +35,13 @@ func TestServingModes(t *testing.T) {
 				entry = "/static/src/main.js"
 			}
 			check("/", 200, entry)
+			check("/react/", 200, "React + Go starter")
+			if !dev {
+				check("/react/app.js", 200, "createRoot")
+				check("/react/index.css", 200, "background")
+			} else {
+				check("/react/", 200, "/react/static/src/main.jsx")
+			}
 			check("/static/app.js", 200, "/api/hello")
 			check("/static/style.css", 200, "css/tokens.css")
 			check("/static/css/components.css", 200, ".dialog")

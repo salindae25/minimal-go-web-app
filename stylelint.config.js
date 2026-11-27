@@ -7,6 +7,9 @@ export default {
     'color-no-hex': true,
     'color-named': 'never',
     'function-disallowed-list': ['rgb', 'rgba', 'hsl', 'hsla'],
+    'hue-degree-notation': 'number',
+    'import-notation': null,
+    'at-rule-no-unknown': [true, { ignoreAtRules: ['theme'] }],
     // State-specific component selectors intentionally follow their base styles.
     'no-descending-specificity': null,
   },
@@ -14,6 +17,13 @@ export default {
     {
       files: ['web/themes/*.css'],
       rules: { 'color-no-hex': null, 'function-disallowed-list': null },
+    },
+    {
+      files: ['web/react/**/*.css'],
+      rules: {
+        'function-disallowed-list': null,
+        'color-no-hex': null,
+      },
     },
   ],
 };

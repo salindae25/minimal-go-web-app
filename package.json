@@ -3,11 +3,16 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node scripts/build-web.js",
-    "check": "node scripts/check-web.js",
+    "build": "node scripts/build-web.js && npm run build:react",
+    "build:vanilla": "node scripts/build-web.js",
+    "build:react": "vite build",
+    "dev:react": "vite --host 127.0.0.1",
+    "check": "node scripts/check-web.js && npm run check:react",
+    "check:react": "vite build --emptyOutDir",
+    "test:react": "vitest run",
     "lint": "npm run lint:js && npm run lint:css && npm run lint:html",
     "lint:js": "eslint . --max-warnings 0",
-    "lint:css": "stylelint \"web/**/*.css\" --max-warnings 0",
+    "lint:css": "stylelint \"web/css/**/*.css\" \"web/themes/**/*.css\" \"web/*.css\" \"web/react/src/style.css\" --max-warnings 0",
     "lint:html": "html-validate \"web/*.html\"",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -15,14 +20,30 @@
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
+    "@tailwindcss/vite": "^4.1.11",
+    "@testing-library/jest-dom": "^6.6.4",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@vitejs/plugin-react": "^4.7.0",
     "eslint": "10.13.0",
     "globals": "17.13.0",
     "html-validate": "11.17.0",
+    "jsdom": "^26.1.0",
     "prettier": "3.9.10",
     "stylelint": "17.16.0",
-    "stylelint-config-standard": "40.0.0"
+    "stylelint-config-standard": "40.0.0",
+    "tailwindcss": "^4.1.11",
+    "vite": "^6.4.1",
+    "vitest": "^3.2.4"
   },
   "engines": {
     "node": ">=24.8.0"
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "tailwind-merge": "^3.3.1"
   }
 }
