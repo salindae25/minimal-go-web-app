@@ -3,11 +3,13 @@
 # Independent frontend stage: Go changes do not invalidate this bundle.
 FROM --platform=$BUILDPLATFORM node:24-alpine AS frontend
 WORKDIR /src
-COPY package.json ./
+COPY package.json package-lock.json ./
+RUN npm ci --ignore-scripts
 COPY scripts/build-web.js scripts/check-web.js ./scripts/
-COPY web/src/ ./web/src/
-COPY web/theme-init.js ./web/
-RUN node scripts/build-web.js && node scripts/check-web.js
+COPY web/ ./web/
+COPY vite.config.js jsconfig.json ./
+RUN node scripts/build-web.js && node scripts/check-web.js && npm run build:react
+
 
 FROM --platform=$BUILDPLATFORM golang:1.27-alpine AS backend
 WORKDIR /src
@@ -24,6 +26,7 @@ COPY web/components.html web/storyboard.css ./web/
 COPY --from=frontend /src/web/app.js ./web/app.js
 # Source modules are needed by the development-mode route tests, not the runtime.
 COPY --from=frontend /src/web/src/ ./web/src/
+COPY --from=frontend /src/web/react-dist/ ./web/react-dist/
 RUN --mount=type=cache,target=/go/pkg/mod \
     --mount=type=cache,target=/root/.cache/go-build \
     go vet ./... && go test ./...

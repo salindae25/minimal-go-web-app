@@ -10,7 +10,9 @@ Requires Go 1.25+ for the application and Node.js 24.8+ for contributor tooling 
 make dev
 ```
 
-Open http://127.0.0.1:8080. The `-dev` flag serves `web/` from disk and uses native ES modules from `web/src/main.js`. It also enables the component storyboard at http://127.0.0.1:8080/dev/components; that page is development-only. Refresh the browser after frontend changes; there is no hot reload or file watcher. Restart the command after Go changes. Run from the project root in development.
+Open http://127.0.0.1:8080 for the vanilla starter. The `-dev` flag serves `web/` from disk and uses native ES modules from `web/src/main.js`. It also enables the component storyboard at http://127.0.0.1:8080/dev/components; that page is development-only. Refresh the browser after frontend changes; there is no hot reload or file watcher. Restart the command after Go changes. Run from the project root in development.
+
+The optional React starter is at http://127.0.0.1:8080/react/ in development. Start Vite with `npm run dev:react` in another terminal (`make dev` proxies the React route to it). Install locked frontend dependencies with `npm ci` first. React development source and the Vite server are available only in development mode.
 
 ## Build and run
 
@@ -19,7 +21,13 @@ make build
 HOST=0.0.0.0 PORT=8080 ./bin/server
 ```
 
-The executable embeds HTML, CSS, and the generated JavaScript bundle. It can run from any directory without Node.js, Bun, source files, or external Go dependencies. Configuration comes from `HOST` (default `127.0.0.1`) and `PORT` (default `8080`). `.env.example` documents these settings; the server does not load dotenv files automatically. SIGINT/SIGTERM trigger graceful shutdown with a ten-second deadline.
+The executable embeds the vanilla app and the built React page, JavaScript, and Tailwind CSS. Visit `/` for vanilla or `/react/` for React. Both run from any directory without Node.js, Bun, source files, or external Go dependencies; neither frontend loads assets from a CDN. Configuration comes from `HOST` (default `127.0.0.1`) and `PORT` (default `8080`). `.env.example` documents these settings; the server does not load dotenv files automatically. SIGINT/SIGTERM trigger graceful shutdown with a ten-second deadline.
+
+## React starter
+
+The React starter lives under `web/react/` and is built by Vite; it remains separate from the vanilla app and custom bundler. Its example Button follows shadcn/ui conventions, uses Tailwind CSS 4, and is composed with `class-variance-authority`, `clsx`, and `tailwind-merge`. The `@/` alias maps to `web/react/src` in Vite and `jsconfig.json`.
+
+Run `npm ci`, then use `npm run dev:react` alongside `make dev` for development. `npm run build:react` builds its local production assets into `web/react-dist/`; `make build` builds both frontends before embedding. `npm run test:react` exercises the API interaction. The final Go runtime contains no Node server or frontend dependencies.
 
 ## Structure
 
@@ -90,7 +98,7 @@ The runtime uses Alpine's BusyBox HTTP client to check `GET /healthz`, which ret
 
 ### Build cache behavior
 
-- The frontend stage copies only bundler scripts, package metadata, and JavaScript source. Go, HTML, and CSS edits reuse the frontend bundle. There are currently no npm dependencies to install.
+- The frontend stage copies only bundler scripts, package metadata, and JavaScript source. Go, HTML, and CSS edits reuse the frontend bundle. The frontend stage installs the locked React/Vite/Tailwind dependencies with `npm ci` and builds both frontends.
 - The Go dependency step copies only `go.mod` and optional `go.sum`. Add and commit `go.sum` when introducing dependencies. The module download cache persists across source changes.
 - BuildKit cache mounts preserve `/go/pkg/mod` and `/root/.cache/go-build` across builds on the same builder. Go recompiles changed packages and reuses cached standard-library and dependency compilation.
 - Go vet and tests run before producing the binary. The builder runs natively and cross-compiles the final executable for Docker's target architecture.

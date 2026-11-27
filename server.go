@@ -5,13 +5,15 @@ import (
 	"encoding/json"
 	"io/fs"
 	"net/http"
+	"net/http/httputil"
+	"net/url"
 	"os"
 	"strings"
 )
 
 // Production includes only public assets, not source modules or build scripts.
 //
-//go:embed web/index.html web/style.css web/app.js web/css web/themes web/theme-init.js
+//go:embed web/index.html web/style.css web/app.js web/css web/themes web/theme-init.js web/react-dist
 var embedded embed.FS
 
 func newHandler(dev bool) (http.Handler, error) {
@@ -46,6 +48,29 @@ func newHandler(dev bool) (http.Handler, error) {
 		}
 	}
 	mux.HandleFunc("GET /{$}", servePage("index.html", dev))
+	mux.HandleFunc("GET /react/{$}", func(w http.ResponseWriter, r *http.Request) {
+		if dev {
+			w.Header().Set("Content-Type", "text/html; charset=utf-8")
+			w.Header().Set("Cache-Control", "no-cache")
+			_, _ = w.Write([]byte(`<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>React + Go starter</title><link rel="stylesheet" href="/react/static/style.css"></head><body><div id="root"></div><script type="module" src="/react/static/src/main.jsx"></script></body></html>`))
+			return
+		}
+		page, err := fs.ReadFile(assets, "react-dist/index.html")
+		if err != nil {
+			http.Error(w, "Page unavailable", http.StatusInternalServerError)
+			return
+		}
+		page = []byte(strings.Replace(string(page), `src="/app.js"`, `src="/react/app.js"`, 1))
+		page = []byte(strings.Replace(string(page), `href="/index.css"`, `href="/react/index.css"`, 1))
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		w.Header().Set("Cache-Control", "no-cache")
+		_, _ = w.Write(page)
+	})
+	if dev {
+		mux.Handle("GET /react/{path...}", reactDevProxy())
+	} else {
+		mux.Handle("GET /react/", http.StripPrefix("/react/", http.FileServerFS(reactAssets(assets, dev))))
+	}
 	if dev {
 		// No storyboard page, examples, or source modules are embedded in production.
 		mux.HandleFunc("GET /dev/components", servePage("components.html", false))
@@ -83,6 +108,26 @@ func newHandler(dev bool) (http.Handler, error) {
 		}
 		mux.ServeHTTP(w, r)
 	}), nil
+}
+
+func reactAssets(assets fs.FS, dev bool) fs.FS {
+	if dev {
+		return os.DirFS("web/react")
+	}
+	root, err := fs.Sub(assets, "react-dist")
+	if err != nil {
+		return assets
+	}
+	return root
+}
+
+func reactDevProxy() http.Handler {
+	target, _ := url.Parse("http://127.0.0.1:5173")
+	proxy := httputil.NewSingleHostReverseProxy(target)
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		r.URL.Path = strings.TrimPrefix(r.URL.Path, "/react")
+		proxy.ServeHTTP(w, r)
+	})
 }
 
 // joinThemes follows px0's filename-ordered stylesheet concatenation pattern.

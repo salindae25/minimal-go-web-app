@@ -2,9 +2,16 @@ import js from '@eslint/js';
 import globals from 'globals';
 
 export default [
-  { ignores: ['web/app.js', 'bin/**', 'node_modules/**'] },
+  { ignores: ['web/app.js', 'web/react-dist/**', 'bin/**', 'node_modules/**'] },
   js.configs.recommended,
   { files: ['web/**/*.js'], languageOptions: { globals: globals.browser } },
+  {
+    files: ['web/react/**/*.jsx'],
+    languageOptions: {
+      globals: globals.browser,
+      parserOptions: { ecmaFeatures: { jsx: true } },
+    },
+  },
   {
     files: ['scripts/**/*.js', '*.config.js', '*.config.mjs'],
     languageOptions: { globals: globals.node },
